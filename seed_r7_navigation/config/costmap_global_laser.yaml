@@ -1,0 +1,8 @@
+global_frame: odom
+rolling_window: true
+track_unknown_space: true
+inflation_radius: 0.4
+
+plugins:
+  - {name: obstacles,   type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation,   type: "costmap_2d::InflationLayer"}

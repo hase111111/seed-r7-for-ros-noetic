@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="RUN_BRINGUP" default="true" />
+
+  <!--- Run bringup -->
+  <include if="$(arg RUN_BRINGUP)"
+           file="$(find seed_r7_navigation)/launch/wheel_bringup.launch" />
+
+  <!--- Run making map -->
+  <arg name="cmd_vel_topic" default="cmd_vel"/>
+  <include file="$(find seed_r7_navigation)/launch/making_map_navigation.launch">
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+  </include>
+
+</launch>
