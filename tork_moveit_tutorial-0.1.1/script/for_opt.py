@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 from tork_moveit_tutorial import *
-
+import rospy
+import moveit_commander
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from moveit_msgs.msg import RobotTrajectory
 
 move_group_name = 'larm_with_waist'
 
@@ -86,7 +89,6 @@ theta_opt = [[-5.66285033e-29, -5.50107222e-29, -5.34165082e-29,  6.33682687e-09
   -1.29870862e+00, -1.31726968e+00, -1.32735725e+00, -1.33100000e+00,
   -1.33100000e+00, -1.33100000e+00]]
 
-data_num = len(theta_opt[0])
 
 mapping = dict()
 mapping['waist_y_joint'] = theta_opt[0]
@@ -102,21 +104,43 @@ mapping['l_wrist_y_joint'] = theta_opt[6]
 mapping['l_wrist_y_joint'] = [-1 * x for x in mapping['l_wrist_y_joint']]
 mapping['l_wrist_r_joint'] = theta_opt[7]
 
+
+def get_trajectory():
+    trajectory = RobotTrajectory()
+    trajectory.joint_trajectory.joint_names = name_list
+    num_steps = len(theta_opt[0])  # 列数（= 時間ステップ数）
+    time_step = 0.5  # 各ステップの時間間隔（適宜調整）
+
+    for i in range(num_steps):
+        point = JointTrajectoryPoint()
+
+        # すべての関節について指令値を取得（なければ0）
+        joint_positions = []
+        for joint in name_list:
+            if joint in mapping:
+                joint_positions.append(mapping[joint][i])  # 指定された関節の値
+            else:
+                joint_positions.append(0.0)  # 指定がない関節は0
+
+        # 取得した関節角度を設定
+        point.positions = joint_positions
+
+        # 時間を設定
+        point.time_from_start = rospy.Duration(time_step * (i + 1))
+
+        # `trajectory` に追加
+        trajectory.joint_trajectory.points.append(point)
+
+    return trajectory
+
 def main():
     group = MoveGroupCommander(move_group_name)
     group.set_max_velocity_scaling_factor(1.0)
     group.set_max_acceleration_scaling_factor(1.0)
 
-    for i in range(data_num):
-        # すべてのjointについて，mappingにデータがあるか確認し，あればその値を設定する
-        for name in name_list:
-            if name in mapping:
-                group.set_joint_value_target(name, mapping[name][i])
-                rospy.loginfo(f"Set Target to {name}: {mapping[name][i]}")
-
-        wait = True if i == 1 else False
-        group.go(wait=wait)
-        rospy.sleep(0.5)
+    trajectory = get_trajectory()
+    group.execute(trajectory, wait=True)
+    group.go()
 
 
 if __name__ == '__main__':
