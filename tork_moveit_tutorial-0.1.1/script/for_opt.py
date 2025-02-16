@@ -70,6 +70,22 @@ mapping['l_wrist_y_joint'] = theta_opt[6]
 mapping['l_wrist_r_joint'] = theta_opt[7]
 
 
+def escape_right_arm():
+    group = MoveGroupCommander('rarm')
+    group.set_max_velocity_scaling_factor(1.0)
+    group.set_max_acceleration_scaling_factor(1.0)
+    
+    # move to initial position
+    name = group.get_active_joints()
+    for joint in name:
+        group.set_joint_value_target(joint, 0.0)
+    group.set_joint_value_target('r_shoulder_r_joint', np.pi / 2)
+    group.go()
+
+    # move to escape position
+    group.set_joint_value_target('r_shoulder_r_joint', 0)
+    group.go()
+
 def get_trajectory():
     trajectory = RobotTrajectory()
     trajectory.joint_trajectory.joint_names = name_list
@@ -117,5 +133,7 @@ def main():
 if __name__ == '__main__':
     
     init_node()
+
+    escape_right_arm()
 
     main()
