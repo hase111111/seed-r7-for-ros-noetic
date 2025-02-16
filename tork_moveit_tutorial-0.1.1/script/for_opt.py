@@ -135,7 +135,7 @@ def main():
 
     move_initial_position(group, theta_opt)
     
-    trajectory = get_trajectory()
+    trajectory = get_trajectory(theta_opt)
     group.execute(trajectory, wait=True)
     
 
