@@ -59,17 +59,19 @@ theta_opt = [[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.
   -0.1942, -0.1969, -0.1985, -0.1990, -0.1990, -0.1990]]
 
 
-mapping = dict()
-mapping['waist_y_joint'] = theta_opt[0]
-mapping['l_shoulder_p_joint'] = theta_opt[1]
-mapping['l_shoulder_r_joint'] = theta_opt[2]
-mapping['l_shoulder_y_joint'] = theta_opt[3]
-mapping['l_elbow_joint'] = theta_opt[4]
-# 'l_elbow_joint'縺ｮ蛟､繧偵☆縺ｹ縺ｦ2蛟阪☆繧・mapping['l_elbow_joint'] = [2 * x for x in mapping['l_elbow_joint']]
-mapping['l_elbow_joint_dummy'] = theta_opt[5]
-mapping['l_wrist_y_joint'] = theta_opt[6]
-mapping['l_wrist_r_joint'] = theta_opt[7]
-
+def make_mapping(theta_opt):
+    mapping = dict()
+    mapping['waist_y_joint'] = theta_opt[0]
+    mapping['l_shoulder_p_joint'] = theta_opt[1]
+    mapping['l_shoulder_r_joint'] = theta_opt[2]
+    mapping['l_shoulder_y_joint'] = theta_opt[3]
+    mapping['l_elbow_joint'] = theta_opt[4]
+    # 'l_elbow_joint' は mimic joint なので、実際の関節角度は2倍になる
+    ['l_elbow_joint'] = [2 * x for x in mapping['l_elbow_joint']]
+    mapping['l_elbow_joint_dummy'] = theta_opt[5]
+    mapping['l_wrist_y_joint'] = theta_opt[6]
+    mapping['l_wrist_r_joint'] = theta_opt[7]
+    return mapping
 
 def escape_right_arm():
     group = MoveGroupCommander('rarm')
@@ -87,29 +89,40 @@ def escape_right_arm():
     group.set_joint_value_target('r_shoulder_r_joint', 0)
     group.go()
 
-def get_trajectory():
+
+def move_initial_position(group, theta_opt):
+    mapping = make_mapping(theta_opt)
+    for joint in name_list:
+        if joint in mapping:
+            rospy.loginfo(f"joint = {joint}")
+            group.set_joint_value_target(joint, mapping[joint][1])
+    group.go()
+    
+
+def get_trajectory(theta_opt):
+    mapping = make_mapping(theta_opt)
     trajectory = RobotTrajectory()
     trajectory.joint_trajectory.joint_names = name_list
-    num_steps = len(theta_opt[0])  # 蛻玲焚・・ 譎る俣繧ｹ繝・ャ繝玲焚・・    
-    time_step = 0.2  # 蜷・せ繝・ャ繝励・譎る俣髢馴囈・磯←螳懆ｪｿ謨ｴ・・
+    num_steps = len(theta_opt[0])  # 時間の分割数
+    time_step = 0.2  #　各分割の時間
     for i in range(num_steps):
         point = JointTrajectoryPoint()
 
-        # 縺吶∋縺ｦ縺ｮ髢｢遽縺ｫ縺､縺・※謖・ｻ､蛟､繧貞叙蠕暦ｼ医↑縺代ｌ縺ｰ0・・        
+        # 各時間における関節角度を取得     
         joint_positions = []
         for joint in name_list:
             if joint in mapping:
-                joint_positions.append(mapping[joint][i])  # 謖・ｮ壹＆繧後◆髢｢遽縺ｮ蛟､
+                joint_positions.append(mapping[joint][i])  # mappingにデータがあればその値を追加
             else:
-                joint_positions.append(0.0)  # 謖・ｮ壹′縺ｪ縺・未遽縺ｯ0
+                joint_positions.append(0.0)  # mappingにデータがなければ0を追加
 
-        # 蜿門ｾ励＠縺滄未遽隗貞ｺｦ繧定ｨｭ螳・        
+        # 関節角度を設定
         point.positions = joint_positions
 
-        # 譎る俣繧定ｨｭ螳・        
+        # 時間を設定
         point.time_from_start = rospy.Duration(time_step * (i + 1))
 
-        # `trajectory` 縺ｫ霑ｽ蜉
+        # ポイントを追加
         trajectory.joint_trajectory.points.append(point)
 
     return trajectory
@@ -119,16 +132,11 @@ def main():
     group.set_max_velocity_scaling_factor(1.0)
     group.set_max_acceleration_scaling_factor(1.0)
 
-    # for initial position
-    for joint in name_list:
-        if joint in mapping:
-            rospy.loginfo(f"joint = {joint}")
-            group.set_joint_value_target(joint, mapping[joint][1])  # 謖・ｮ壹＆繧後◆髢｢遽縺ｮ蛟､    
-    group.go()
+    move_initial_position(group, theta_opt)
     
     trajectory = get_trajectory()
     group.execute(trajectory, wait=True)
-    group.go()
+    
 
 
 if __name__ == '__main__':
