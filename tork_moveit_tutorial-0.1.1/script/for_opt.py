@@ -80,7 +80,7 @@ def escape_right_arm():
     name = group.get_active_joints()
     for joint in name:
         group.set_joint_value_target(joint, 0.0)
-    group.set_joint_value_target('r_shoulder_r_joint', np.pi / 3)
+    group.set_joint_value_target('r_shoulder_r_joint', np.pi / 4)
     group.go()
 
     # move to escape position
