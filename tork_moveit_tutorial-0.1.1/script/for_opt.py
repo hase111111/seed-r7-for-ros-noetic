@@ -80,7 +80,7 @@ def escape_right_arm():
     name = group.get_active_joints()
     for joint in name:
         group.set_joint_value_target(joint, 0.0)
-    group.set_joint_value_target('r_shoulder_r_joint', np.pi / 2)
+    group.set_joint_value_target('r_shoulder_r_joint', np.pi / 3)
     group.go()
 
     # move to escape position
@@ -91,7 +91,7 @@ def get_trajectory():
     trajectory = RobotTrajectory()
     trajectory.joint_trajectory.joint_names = name_list
     num_steps = len(theta_opt[0])  # 蛻玲焚・・ 譎る俣繧ｹ繝・ャ繝玲焚・・    
-    time_step = 0.5  # 蜷・せ繝・ャ繝励・譎る俣髢馴囈・磯←螳懆ｪｿ謨ｴ・・
+    time_step = 0.1  # 蜷・せ繝・ャ繝励・譎る俣髢馴囈・磯←螳懆ｪｿ謨ｴ・・
     for i in range(num_steps):
         point = JointTrajectoryPoint()
 
