@@ -73,20 +73,24 @@ mapping['l_wrist_r_joint'] = theta_opt[7]
 def get_trajectory():
     trajectory = RobotTrajectory()
     trajectory.joint_trajectory.joint_names = name_list
-    num_steps = len(theta_opt[0])  # 蛻玲焚・・ 譎る俣繧ｹ繝・ャ繝玲焚・・    time_step = 0.5  # 蜷・せ繝・ャ繝励・譎る俣髢馴囈・磯←螳懆ｪｿ謨ｴ・・
+    num_steps = len(theta_opt[0])  # 蛻玲焚・・ 譎る俣繧ｹ繝・ャ繝玲焚・・    
+    time_step = 0.5  # 蜷・せ繝・ャ繝励・譎る俣髢馴囈・磯←螳懆ｪｿ謨ｴ・・
     for i in range(num_steps):
         point = JointTrajectoryPoint()
 
-        # 縺吶∋縺ｦ縺ｮ髢｢遽縺ｫ縺､縺・※謖・ｻ､蛟､繧貞叙蠕暦ｼ医↑縺代ｌ縺ｰ0・・        joint_positions = []
+        # 縺吶∋縺ｦ縺ｮ髢｢遽縺ｫ縺､縺・※謖・ｻ､蛟､繧貞叙蠕暦ｼ医↑縺代ｌ縺ｰ0・・        
+        joint_positions = []
         for joint in name_list:
             if joint in mapping:
                 joint_positions.append(mapping[joint][i])  # 謖・ｮ壹＆繧後◆髢｢遽縺ｮ蛟､
             else:
                 joint_positions.append(0.0)  # 謖・ｮ壹′縺ｪ縺・未遽縺ｯ0
 
-        # 蜿門ｾ励＠縺滄未遽隗貞ｺｦ繧定ｨｭ螳・        point.positions = joint_positions
+        # 蜿門ｾ励＠縺滄未遽隗貞ｺｦ繧定ｨｭ螳・        
+        point.positions = joint_positions
 
-        # 譎る俣繧定ｨｭ螳・        point.time_from_start = rospy.Duration(time_step * (i + 1))
+        # 譎る俣繧定ｨｭ螳・        
+        point.time_from_start = rospy.Duration(time_step * (i + 1))
 
         # `trajectory` 縺ｫ霑ｽ蜉
         trajectory.joint_trajectory.points.append(point)
