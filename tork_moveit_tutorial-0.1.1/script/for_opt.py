@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from tork_moveit_tutorial import *
+import numpy as np
 import rospy
 import moveit_commander
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
