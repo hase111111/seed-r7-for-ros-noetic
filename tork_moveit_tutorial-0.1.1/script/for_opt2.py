@@ -270,8 +270,8 @@ def main():
     group.execute(trajectory, wait=True)
     rospy.sleep(1)
 
-    trajectory = get_trajectory(theta_opt_set_item)
-    group.execute(trajectory, wait=True)
+    # trajectory = get_trajectory(theta_opt_set_item)
+    # group.execute(trajectory, wait=True)
 
     service(1,'release',100)
     # wait for hand to release
