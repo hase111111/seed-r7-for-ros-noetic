@@ -61,13 +61,14 @@ theta_opt = [[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.
 
 def make_mapping(theta_opt):
     mapping = dict()
+
     mapping['waist_y_joint'] = theta_opt[0]
     mapping['l_shoulder_p_joint'] = theta_opt[1]
     mapping['l_shoulder_r_joint'] = theta_opt[2]
     mapping['l_shoulder_y_joint'] = theta_opt[3]
     mapping['l_elbow_joint'] = theta_opt[4]
     # 'l_elbow_joint' は mimic joint なので、実際の関節角度は2倍になる
-    ['l_elbow_joint'] = [2 * x for x in mapping['l_elbow_joint']]
+    mapping['l_elbow_joint'] = [2 * x for x in mapping['l_elbow_joint']]
     mapping['l_elbow_joint_dummy'] = theta_opt[5]
     mapping['l_wrist_y_joint'] = theta_opt[6]
     mapping['l_wrist_r_joint'] = theta_opt[7]
