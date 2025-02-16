@@ -132,8 +132,8 @@ theta_opt_set_item =  [[-1.1636, -1.1636, -1.1636, -1.1636, -1.1636, -1.1636, -1
   -0.0500, -0.0500],
  [ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000,
    0.0000,  0.0000],
- [-0.2500, -0.2500, -0.2500, -0.2500, -0.2500, -0.2500, -0.2500, -0.2500,
-  -0.2500, -0.2500]]
+ [-0.3000, -0.3000, -0.3000, -0.3000, -0.3000, -0.3000, -0.3000, -0.3000,
+  -0.3000, -0.3000]]
 
 def make_mapping(theta_opt):
     mapping = dict()
@@ -229,7 +229,7 @@ def main():
     trajectory = get_trajectory(theta_opt_move_item)
     group.execute(trajectory, wait=True)
     rospy.sleep(1)
-    
+
     trajectory = get_trajectory(theta_opt_set_item)
     group.execute(trajectory, wait=True)
 
