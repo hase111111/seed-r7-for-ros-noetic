@@ -228,7 +228,8 @@ def main():
 
     trajectory = get_trajectory(theta_opt_move_item)
     group.execute(trajectory, wait=True)
-
+    rospy.sleep(1)
+    
     trajectory = get_trajectory(theta_opt_set_item)
     group.execute(trajectory, wait=True)
 
