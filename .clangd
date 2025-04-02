@@ -1,0 +1,9 @@
+CompileFlags:
+  Add:
+    - "-I/home/yamada/catkin_ws/src/ros-lecture-study/ros-lecture-study-basic/include"
+    - "-I/opt/ros/noetic/include"
+    - "-I/usr/include"
+    - "-I/usr/local/include"
+
+Diagnostics:
+  Suppress: ["-Wunknown-warning-option"]
