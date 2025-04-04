@@ -1,9 +1,11 @@
 CompileFlags:
+  CompilationDatabase: None
   Add:
-    - "-I/home/yamada/catkin_ws/src/ros-lecture-study/ros-lecture-study-basic/include"
     - "-I/opt/ros/noetic/include"
     - "-I/usr/include"
     - "-I/usr/local/include"
+    - "-I/home/yamada/catkin_ws/src/seed-r7-for-ros-noetic/seed_r7_ros_controller/include"
+    - "-I/home/yamada/catkin_ws/src/seed-r7-for-ros-noetic/seed_smartactuator_sdk/include"
 
 Diagnostics:
   Suppress: ["-Wunknown-warning-option"]
