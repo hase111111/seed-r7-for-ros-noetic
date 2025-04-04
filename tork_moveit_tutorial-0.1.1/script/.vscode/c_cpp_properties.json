@@ -1,0 +1,32 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/hasegawa/catkin_ws_hase/devel/include/**",
+        "/home/hasegawa/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/hasegawa/catkin_ws/src/franka_ros/franka_control/include/**",
+        "/home/hasegawa/catkin_ws/src/franka_ros/franka_example_controllers/include/**",
+        "/home/hasegawa/catkin_ws/src/franka_ros/franka_gazebo/include/**",
+        "/home/hasegawa/catkin_ws/src/franka_ros/franka_gripper/include/**",
+        "/home/hasegawa/catkin_ws/src/franka_ros/franka_hw/include/**",
+        "/home/hasegawa/catkin_ws/src/freenect_stack/freenect_camera/include/**",
+        "/home/hasegawa/catkin_ws/src/openni_camera/openni_camera/include/**",
+        "/home/hasegawa/catkin_ws_hase/src/seed-r7-for-ros-noetic/seed_r7_ros_controller/include/**",
+        "/home/hasegawa/catkin_ws_hase/src/seed-r7-for-ros-noetic/seed_smartactuator_sdk/include/**",
+        "/home/hasegawa/catkin_ws/src/common_msgs/sensor_msgs/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
