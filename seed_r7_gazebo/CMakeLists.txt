@@ -12,6 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   gazebo_plugins
 )
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SDF REQUIRED sdformat11)
+
+include_directories(${SDF_INCLUDE_DIRS})
+
 catkin_package()
 
 ## Gazebo plugins
