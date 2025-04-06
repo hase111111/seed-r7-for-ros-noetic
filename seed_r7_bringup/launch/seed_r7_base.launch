@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot_model" default="typeg"/>
+
+    <!-- seed_r7_bringup.launch -->
+    <include file="$(find seed_r7_bringup)/launch/seed_r7_bringup.launch" />
+
+    <!-- joy stickの入力を受け取るノードを起動 -->
+    <node pkg="joy" type="joy_node" name="joy_node">
+        <param name="dev" value="/dev/input/js0"/>
+        <param name="deadzone" value="0.05"/>
+    </node>
+
+    <!-- seed_r7_teleop.launch -->
+    <node pkg="seed_r7_my_mover" type="joy2cmd_node" name="joy2cmd_node" output="screen" />
+
+    <!--- Run Move Base -->
+    <include file="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/move_group.launch" />
+    <include file="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/moveit_rviz.launch" >
+        <arg name="rviz_config" value="$(find seed_r7_moveit_config)/../seed_r7_$(arg robot_model)_moveit_config/launch/moveit.rviz"/>
+    </include>
+</launch>
