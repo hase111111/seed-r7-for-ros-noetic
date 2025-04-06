@@ -5,7 +5,9 @@ CompileFlags:
     - "-I/usr/include"
     - "-I/usr/local/include"
     - "-I/home/yamada/catkin_ws/src/seed-r7-for-ros-noetic/seed_r7_ros_controller/include"
+    - "-I/home/hasegawa/catkin_ws/src/seed-r7-for-ros-noetic/seed_r7_ros_controller/include"
     - "-I/home/yamada/catkin_ws/src/seed-r7-for-ros-noetic/seed_smartactuator_sdk/include"
+    - "-I/home/hasegawa/catkin_ws/src/seed-r7-for-ros-noetic/seed_smartactuator_sdk/include"
 
 Diagnostics:
   Suppress: ["-Wunknown-warning-option"]
