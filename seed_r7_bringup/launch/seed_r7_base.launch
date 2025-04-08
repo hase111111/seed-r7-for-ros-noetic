@@ -13,7 +13,10 @@
     </node>
 
     <!-- seed_r7_teleop.launch -->
-    <node pkg="seed_r7_my_mover" type="joy2cmd_node" name="joy2cmd_node" output="screen" />
+    <node pkg="seed_r7_my_mover" type="joy2cmd_node" name="joy2cmd_node" output="screen">
+        <param name="scale_linear" value="0.5" />
+        <param name="scale_angular" value="0.5" />
+    </node>
 
     <!--- Run Move Base -->
     <group if="$(arg dispaly_rviz)">
