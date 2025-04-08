@@ -41,12 +41,6 @@ private:
     std::lock_guard<std::mutex> lock(mtx_);
 
     cmd_pub_.publish(latest_cmd_);
-
-    // 減速
-    constexpr double deceleration_factor = 0.95;
-    latest_cmd_.linear.x *= deceleration_factor;
-    latest_cmd_.linear.y *= deceleration_factor;
-    latest_cmd_.angular.z *= deceleration_factor;
   }
 
   ros::NodeHandle nh_;
